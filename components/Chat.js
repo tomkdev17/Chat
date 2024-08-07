@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import { useState, useEffect } from 'react';
 import { ScreenStackHeaderCenterView } from 'react-native-screens';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 const Chat = ({route, navigation}) => {
     
@@ -25,7 +25,7 @@ const Chat = ({route, navigation}) => {
             },
             {
                 _id: 2,
-                text: 'This is a system message',
+                text: 'You have entered the chat',
                 createdAt: new Date(),
                 system: true,
             },
@@ -36,10 +36,25 @@ const Chat = ({route, navigation}) => {
         navigation.setOptions({title: name}); 
     }, [name, navigation]);
 
+    const renderBubble = (props) => {
+        return <Bubble 
+            {...props}
+            wrapperStyle = {{
+                right: {
+                    backgroundColor: '#000'
+                },
+                left: {
+                    backgroundColor: '#FFF'
+                }
+            }}
+        />
+    };
+
     return (
         <View style={styles.container}>
             <GiftedChat
                 messages={messages}
+                renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}        
                 user={{
                     _id : 1

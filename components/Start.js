@@ -1,5 +1,15 @@
 import { useState } from 'react'; 
-import { StyleSheet, View, Text,TextInput, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Platform } from 'react-native'; 
+import { 
+    StyleSheet, 
+    View, 
+    Text,
+    TextInput, 
+    TouchableOpacity, 
+    ImageBackground, 
+    KeyboardAvoidingView, 
+    Platform, 
+    ScrollView
+} from 'react-native'; 
 
 
 const Start = ({navigation}) => {
@@ -27,6 +37,9 @@ const Start = ({navigation}) => {
                     <View style={styles.colorButton}>
                         {colors.map((color, index) => 
                             <TouchableOpacity 
+                                accessible={true}
+                                accessibilityLabel='Change background color of chat'
+                                accessbilityHint='There are four color options to customize the look of the chat'
                                 key={index}
                                 style={[
                                     styles.colorButton,
@@ -42,10 +55,17 @@ const Start = ({navigation}) => {
                     </View>
                     
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('Chat', {name: name, backgroundColor: background})} style={styles.button}>
+                <TouchableOpacity 
+                    accessible={true}
+                    accessibilityLabel='Enter the chat'
+                    accessibilityHint='Leaves the home screen for the Chat screen'
+                    onPress={() => navigation.navigate('Chat', {name: name, backgroundColor: background})} style={styles.button}>
                     <Text style={styles.buttonText}>Enter the Chat</Text>
                 </TouchableOpacity>
-                {Platform.OS === "ios"?<KeyboardAvoidingView behavior="padding" />: null}
+
+                {/* The keybaord avoiding view is supposed to help with the keyboard covering up UI elements */}
+                {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="padding" /> : <KeyboardAvoidingView behavior="height" />}
+            
             </View>
         </ImageBackground>  
         </View>
