@@ -2,34 +2,41 @@ import { StyleSheet, View, Text, Button, KeyboardAvoidingView, Platform } from '
 import { useState, useEffect } from 'react';
 import { ScreenStackHeaderCenterView } from 'react-native-screens';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { collection, addDoc, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 
-const Chat = ({route, navigation}) => {
+const Chat = ({route, navigation, db}) => {
     
     const [messages, setMessages ] = useState([]);
-    const {name, backgroundColor} = route.params;
+    const {name, backgroundColor, userID} = route.params;
+
+    //Adds messages to Firestore DB 
     const onSend = (newMessages) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
+        addDoc(collection(db, 'messages'), newMessages[0])
     };
 
     useEffect(() => {
-        setMessages([
-            {
-              _id: 1,
-              text: "Hello developer",
-              createdAt: new Date(),
-              user: {
-                _id: 2,
-                name: "React Native",
-                avatar: "https://placeimg.com/140/140/any",
-              },
-            },
-            {
-                _id: 2,
-                text: 'You have entered the chat',
-                createdAt: new Date(),
-                system: true,
-            },
-          ]);
+        //Queries Firestore DB for all new messages
+        const q = query(
+            collection(db, 'messages'), 
+            orderBy('createdAt', 'desc'), 
+            // where('uid', '==', userID)
+            );
+        const unsubMessages = onSnapshot(q, (chats) => {
+            let newMessages = [];
+            chats.forEach(chat => {
+                newMessages.push({
+                    id: chat.id, 
+                    ...chat.data(),
+                    createdAt: new Date(chat.data().createdAt.toMillis())
+                })
+            });
+            setMessages(newMessages);
+        })
+        //Ensures that the messages query does not fire if not needed
+        return () => {
+            if(unsubMessages) unsubMessages();
+        }
+
     }, []);
 
     useEffect(() => {
@@ -57,7 +64,8 @@ const Chat = ({route, navigation}) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}        
                 user={{
-                    _id : 1
+                    _id : userID,
+                    name : name
                 }}
             />
             { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
@@ -68,8 +76,6 @@ const Chat = ({route, navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        // justifyContent: 'center',
-        // alignItems: 'center',
     }
 })
 export default Chat ; 

@@ -1,4 +1,5 @@
 import { useState } from 'react'; 
+import { getAuth, signInAnonymously } from 'firebase/auth';
 import { 
     StyleSheet, 
     View, 
@@ -7,17 +8,29 @@ import {
     TouchableOpacity, 
     ImageBackground, 
     KeyboardAvoidingView, 
-    Platform, 
-    ScrollView
+    Platform,
+    Alert, 
 } from 'react-native'; 
 
 
 const Start = ({navigation}) => {
 
+    const auth = getAuth();
     const [name, setName] = useState('');
     const colors = ['#090C08', '#474056', '#8A95A5', '#B9C6AE'];
     const [background, setBackground] = useState(colors[0]);
 
+    //Uses Firebase anonymous authentication
+    const signInUser = () => {
+        signInAnonymously(auth)
+            .then(result => {
+               navigation.navigate('Chat', {name: name, backgroundColor: background, userID: result.user.uid});
+               Alert.alert('Signed in succesfully!');
+            })
+            .catch((error) => {
+                Alert.alert('Unable to sign in at this time');
+            })
+    }
 
     return (
         
@@ -59,7 +72,7 @@ const Start = ({navigation}) => {
                     accessible={true}
                     accessibilityLabel='Enter the chat'
                     accessibilityHint='Leaves the home screen for the Chat screen'
-                    onPress={() => navigation.navigate('Chat', {name: name, backgroundColor: background})} style={styles.button}>
+                    onPress={signInUser} style={styles.button}>
                     <Text style={styles.buttonText}>Enter the Chat</Text>
                 </TouchableOpacity>
 
