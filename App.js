@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { initializeApp } from 'firebase/app';
+import { getStorage } from 'firebase/storage';
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
 import { useNetInfo } from '@react-native-community/netinfo';
 import Start from './components/Start';
@@ -27,6 +28,7 @@ export default function App() {
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const storage = getStorage(app);
 
   useEffect(() => {
     if(connectionStatus.isConnected === false) {
@@ -46,7 +48,11 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen name='Chat'>
-          {props => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />}
+          {props => <Chat 
+            isConnected={connectionStatus.isConnected}
+            db={db} 
+            storage={storage}
+            {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
