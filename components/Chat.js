@@ -13,7 +13,6 @@ const Chat = ({route, navigation, db, isConnected, storage}) => {
     const [messages, setMessages ] = useState([]);
     const {name, backgroundColor, userID} = route.params;
 
-    //Adds messages to Firestore DB 
     const onSend = (newMessages) => {
         addDoc(collection(db, 'messages'), newMessages[0])
     };
@@ -53,15 +52,14 @@ const Chat = ({route, navigation, db, isConnected, storage}) => {
                 setMessages(newMessages);
             })
         } else loadCachedMessages();
+
+        navigation.setOptions({title: name}); 
+
         //Ensures that the messages query does not fire if not needed
         return () => {
             if(unsubMessages) unsubMessages();
         };
-    }, [isConnected]);
-
-    useEffect(() => {
-        navigation.setOptions({title: name}); 
-    }, [name, navigation]);
+    }, [name, navigation, isConnected]);
 
     const renderBubble = (props) => {
         return <Bubble 
@@ -86,6 +84,7 @@ const Chat = ({route, navigation, db, isConnected, storage}) => {
         return <CustomActions onSend={onSend} storage={storage} userID={userID} {...props} />;
     }
 
+    // Renders mapView for location messages
     const renderCustomView = (props) => {
         const {currentMessage} = props;
         if (currentMessage.location) {
@@ -108,7 +107,7 @@ const Chat = ({route, navigation, db, isConnected, storage}) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: backgroundColor}]}>
             <GiftedChat
                 messages={messages}
                 renderBubble={renderBubble}

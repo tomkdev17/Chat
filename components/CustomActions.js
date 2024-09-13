@@ -23,11 +23,13 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID}) =
         } else Alert.alert('Permission to access location has not been granted');
     }
 
+    // Creates URI for storage in Firebase
     const generateReference = (uri) => {
         const timeStamp = (new Date()).getTime();
         const imageName = uri.split('/')[uri.split('/').length - 1]; 
         return `${userID}-${timeStamp}-${imageName}`; 
     };
+
     const uploadAndSendImage = async (imageURI) => {
         const uniqueRefString = generateReference(imageURI);
         const response = await fetch(imageURI);
@@ -37,7 +39,8 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID}) =
             const imageURL = await getDownloadURL(snapshot.ref);
             onSend({image: imageURL});
         })
-    }
+    };
+
     const choosePhoto = async () => {
         let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if(permissions.granted) {
@@ -46,7 +49,7 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID}) =
                 await uploadAndSendImage(result.assets[0].uri);
             } 
         } else Alert.alert("Access to photos hasn't been granted");
-    }
+    };
 
     const takePhoto = async () => {
         let permissions = await ImagePicker.requestCameraPermissionsAsync();
@@ -56,7 +59,9 @@ const CustomActions = ({wrapperStyle, iconTextStyle, onSend, storage, userID}) =
                 await uploadAndSendImage(result.assets[0].uri);
             }
         } else Alert.alert("Camera access hasn't been granted");
-    }
+    };
+
+    // Opens Custom Actions menu
     const onActionPress = () => {
         const options = ['Choose a photo', 'Take a photo', 'Share Location', 'Cancel'];
         const cancelButtonIndex = options.length - 1;

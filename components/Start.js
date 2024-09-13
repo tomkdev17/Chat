@@ -33,7 +33,6 @@ const Start = ({navigation}) => {
     }
 
     return (
-        
         <View style={styles.parent}>
           <ImageBackground source={require("../assets/background-image.png")} style={styles.bgImage}>
             <Text style={styles.title} >RendezYou</Text>
@@ -76,9 +75,8 @@ const Start = ({navigation}) => {
                     <Text style={styles.buttonText}>Enter the Chat</Text>
                 </TouchableOpacity>
 
-                {/* The keybaord avoiding view is supposed to help with the keyboard covering up UI elements */}
+                {/* The keybaord avoiding view is supposed to help with the keyboard covering up UI elements but the android emulator still struggles ? */}
                 {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="padding" /> : <KeyboardAvoidingView behavior="height" />}
-            
             </View>
         </ImageBackground>  
         </View>
@@ -87,49 +85,59 @@ const Start = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+    //commented out percentage based styles were meant to adhere to the project design specs
     parent: {
         flex: 1, 
         alignItems: 'center',
         justifyContent:'center',
     },
     title: {
-        fontSize: 45, 
+        fontSize: 55, 
         fontWeight: '600', 
         color: '#FFFFFF',
-        marginVertical: '33%', 
+        marginTop: 175,
+        // marginVertical: '33%', 
         textAlign: 'center'
     },
     container: {
         flex: 1,  
         alignItems: 'center', 
         justifyContent: 'center', 
-        marginHorizontal: '6%',
-        marginTop:'50%',
-        marginBottom:'10%',
-        width: "88%",
-        height: '44%',
+        marginHorizontal: 40,
+        marginTop: 250,
+        marginBottom: 50,
+        // marginHorizontal: '6%',
+        // marginTop:'50%',
+        // marginBottom:'10%',
+        // width: "88%",
+        // height: '44%',
+        // width: 50,
+        // height:'100',
+        borderRadius: 15,
         backgroundColor: '#fff'
     },
     textInput: {
-        width: "88%", 
+        // width: "88%",
+        width: 300, 
         padding: 15, 
         borderWidth: 1, 
-        // marginTop: 15, 
-        // marginBottom: 15, 
+        borderRadius: 15,
+        marginTop: 5, 
+        marginBottom: 15, 
         textAlign: 'center',
         // fontWeight: '300',
     },
     button: { 
         backgroundColor: '#757083',
-        width: '88%', 
-        height: '20%',
+        width: 300, 
+        height: 75,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 15,
     }, 
     buttonText: {
         color: '#ffffff',
         fontSize: 16, 
-        // fontWeight: '300',
     },
     bgImage: {
         flex: 1, 
@@ -138,9 +146,9 @@ const styles = StyleSheet.create({
         width:'100%',
     }, 
     colorChoose:{
-        width:'88%',
+        width: 300,
         padding: 15, 
-        marginBottom: 15, 
+        marginBottom: 20, 
         textAlign: 'left',
     },
     colorChooseText: {

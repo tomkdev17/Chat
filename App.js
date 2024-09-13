@@ -30,6 +30,7 @@ export default function App() {
   const db = getFirestore(app);
   const storage = getStorage(app);
 
+  // Enables offline capability
   useEffect(() => {
     if(connectionStatus.isConnected === false) {
       Alert.alert('Connection has been lost!');
