@@ -9,9 +9,9 @@ Please check the package.json file for a complete list of all dependencies, howe
 ### Node
 This app is created with Expo (v51.0.20) which (at the creation of this app) only supports node 16 or less. If you're running a higher version of node you'll have to downgrade. To downgrade your node run the following commands : 
 
-`nvm install 16.19.0
-nvm use 16.19.0
-nvm alias default 16.19.0`
+`nvm install 16.19.0`
+`nvm use 16.19.0`
+`nvm alias default 16.19.0`
 
 *The last command is not available to Windows users at the time of creation. 
 
@@ -21,7 +21,7 @@ After you've downgraded node you can download the expo cli with the following co
 
 `npm install -g expo-cli`
 
-You'll also need to create an Expo [account](https://expo.dev/)
+You'll also need to create an Expo [account](https://expo.dev/) .
 
 Expo offers a mobile app for development/testing called Expo Go which you can use to run this project in realtime on your personal device, however you can also use an emulator ([Android Studio](https://developer.android.com/studio/install?gad_source=1&gclid=CjwKCAjwxY-3BhAuEiwAu7Y6s7yRv11CKh-m9KyZURbyVUVZg-MB9PqOxpWXtWR2ZK7HibZPSRCqdhoCC9QQAvD_BwE&gclsrc=aw.ds), [Xcode](https://developer.apple.com/documentation/safari-developer-tools/installing-xcode-and-simulators) )
 
@@ -31,7 +31,7 @@ To run this project using Expo, navigate to the project in your terminal and run
 
 Expo will show a menu of commands you can then use to open the project in your emulator. The project will be running and accesible in the Expo Go app, however you will have to start your emulator/simulator prior to running these commands in order to open the project. 
 
-###Firebase
+### Firebase
 
 Chat's information is stored using [Google Firebase](https://firebase.google.com/) . A google account is required to create a Firebase account. 
 
